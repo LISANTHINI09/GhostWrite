@@ -1,0 +1,280 @@
+{
+  "info": {
+    "name": "GhostWrite Platform API",
+    "description": "Postman Collection for GhostWrite - Anonymous Institutional Issue Reporting & AI-Powered Professional Writing Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@ghostwrite.com\",\n  \"password\": \"GhostWrite@2026\"\n}"
+            },
+            "url": "http://localhost:8080/api/auth/login"
+          }
+        },
+        {
+          "name": "Authority Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"authority@ghostwrite.com\",\n  \"password\": \"GhostWrite@2026\"\n}"
+            },
+            "url": "http://localhost:8080/api/auth/login"
+          }
+        },
+        {
+          "name": "Reviewer Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"reviewer@ghostwrite.com\",\n  \"password\": \"GhostWrite@2026\"\n}"
+            },
+            "url": "http://localhost:8080/api/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. AI Ghost Writer",
+      "item": [
+        {
+          "name": "Get AI Engine Status",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/ghostwriter/status"
+          }
+        },
+        {
+          "name": "Generate Professional Grievance",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rawDescription\": \"Hostel water in Block A 2nd floor is completely yellow and murky with bad odor. Caretaker was informed twice with no response.\",\n  \"category\": \"Hostel\",\n  \"reporterType\": \"STUDENT\",\n  \"location\": \"Hostel Block A 2nd Floor\"\n}"
+            },
+            "url": "http://localhost:8080/api/ghostwriter/generate"
+          }
+        },
+        {
+          "name": "Analyze & Classify Grievance",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rawDescription\": \"Campus Wi-Fi connectivity in Science Block drops every 5 minutes during lab hours.\",\n  \"category\": \"Technology / IT\"\n}"
+            },
+            "url": "http://localhost:8080/api/ai/analyze"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Anonymous Reporting & Tracking",
+      "item": [
+        {
+          "name": "Submit Anonymous Report",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporterType\": \"STUDENT\",\n  \"category\": \"Hostel\",\n  \"severity\": \"HIGH\",\n  \"rawDescription\": \"Hostel water in Block A 2nd floor is completely yellow and murky with bad odor.\",\n  \"location\": \"Hostel Block A 2nd Floor\",\n  \"acceptedProfessionalTitle\": \"Formal Representation: Immediate Intervention Required for Hostel Water Supply\",\n  \"acceptedExecutiveSummary\": \"Persistent contamination observed in dormitory plumbing fixtures posing sanitary risks.\",\n  \"acceptedDetailedDescription\": \"Factual record demonstrates unresolved water discoloration affecting resident health.\",\n  \"acceptedRequestedAction\": \"Immediate technical inspection and corrective plumbing overhaul within 24 hours.\",\n  \"acceptedSuggestedPriority\": \"P2\",\n  \"acceptedSuggestedDepartment\": \"Hostel Administration & Estate Office\"\n}"
+            },
+            "url": "http://localhost:8080/api/reports/anonymous"
+          }
+        },
+        {
+          "name": "Track Report by Token",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/api/reports/track/GW-2026-WGJDTL?token=TK-DEMO-SAMPLE-HOST",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "reports", "track", "GW-2026-WGJDTL"],
+              "query": [{ "key": "token", "value": "TK-DEMO-SAMPLE-HOST" }]
+            }
+          }
+        },
+        {
+          "name": "Post Anonymous Message",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messageText\": \"When will the technical maintenance crew arrive?\",\n  \"trackingToken\": \"TK-DEMO-SAMPLE-HOST\"\n}"
+            },
+            "url": "http://localhost:8080/api/reports/GW-2026-WGJDTL/messages"
+          }
+        },
+        {
+          "name": "View Formal Document Dossier",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/documents/GW-2026-WGJDTL/view"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Admin & Governance",
+      "item": [
+        {
+          "name": "Get Dashboard KPIs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "http://localhost:8080/api/admin/dashboard"
+          }
+        },
+        {
+          "name": "List Filtered Reports",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "http://localhost:8080/api/admin/reports?page=0&size=15"
+          }
+        },
+        {
+          "name": "Get Report Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "http://localhost:8080/api/admin/reports/GW-2026-WGJDTL"
+          }
+        },
+        {
+          "name": "Update Report Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{jwt_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"IN_PROGRESS\",\n  \"remarks\": \"Assigned to engineering inspection team\"\n}"
+            },
+            "url": "http://localhost:8080/api/admin/reports/GW-2026-WGJDTL/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Department Authority",
+      "item": [
+        {
+          "name": "Get Department Reports",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authority_jwt}}" }],
+            "url": "http://localhost:8080/api/authority/reports"
+          }
+        },
+        {
+          "name": "Get Authority Report Detail",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{authority_jwt}}" }],
+            "url": "http://localhost:8080/api/authority/reports/GW-2026-WGJDTL"
+          }
+        },
+        {
+          "name": "Submit Department Response",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authority_jwt}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"responseText\": \"Maintenance crew has inspected and replaced the filtration unit.\",\n  \"statusUpdate\": \"RESOLVED\",\n  \"remarks\": \"Filters replaced and water cleared\"\n}"
+            },
+            "url": "http://localhost:8080/api/authority/reports/GW-2026-WGJDTL/response"
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Ethics Reviewer",
+      "item": [
+        {
+          "name": "Get Pending Review Queue",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{reviewer_jwt}}" }],
+            "url": "http://localhost:8080/api/reviewer/pending"
+          }
+        },
+        {
+          "name": "Get Reviewer Report Detail",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{reviewer_jwt}}" }],
+            "url": "http://localhost:8080/api/reviewer/reports/GW-2026-WGJDTL"
+          }
+        },
+        {
+          "name": "Execute Reviewer Action",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{reviewer_jwt}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"APPROVE\",\n  \"remarks\": \"Verified facts and validated protocol\"\n}"
+            },
+            "url": "http://localhost:8080/api/reviewer/GW-2026-WGJDTL/action"
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Analytics & AI Insights",
+      "item": [
+        {
+          "name": "Get Analytics Overview",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "http://localhost:8080/api/analytics/overview"
+          }
+        },
+        {
+          "name": "Get AI Institutional Insights",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{jwt_token}}" }],
+            "url": "http://localhost:8080/api/analytics/insights"
+          }
+        },
+        {
+          "name": "List Issue Clusters",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:8080/api/clusters"
+          }
+        }
+      ]
+    }
+  ]
+}
